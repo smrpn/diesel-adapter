@@ -11,7 +11,11 @@ on:
 jobs:
   build:
     name: Auto Build CI
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy: 
+        matrix:
+            os: [ubuntu-latest, windows-latest, macOS-latest]
+            rust: [nightly, beta, stable]
 
     services:
       postgres:
