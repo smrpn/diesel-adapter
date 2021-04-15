@@ -14,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy: 
         matrix:
-            os: [ubuntu-latest, windows-latest, macOS-latest]
+            os: [ubuntu-latest, macOS-latest]
             rust: [nightly, beta, stable]
 
     services:
@@ -43,16 +43,26 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@master
 
-      - name: Install Rust toolchain
+      - name: Install Rust toolchain ${{ matrix.rust }}
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: ${{ matrix.rust }}
           components: rustfmt, clippy
           override: true
 
-      - name: Install PostgreSQL & MySQL & SQLite Dependencies
+      - name: Install PostgreSQL & MySQL & SQLite Dependencies(ubuntu)
+        if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install libpq-dev postgresql-client mysql-client libmysqlclient-dev libsqlite3-dev sqlite3
+
+      - name: Install PostgreSQL & MySQL & SQLite Dependencies(macOS) 
+        if: matrix.os == 'macOS-latest'
+        run: |
+            brew install libpq postgresql 
+            brew install mysql-client
+            echo 'export PATH="/usr/local/opt/mysql-client/bin:$PATH"' >> ~/.bash_profile
+            source ~/.bash_profile
+            brew install sqlite
 
       - name: Cargo Build
         uses: actions-rs/cargo@v1
