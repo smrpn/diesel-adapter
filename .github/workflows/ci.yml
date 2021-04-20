@@ -23,7 +23,7 @@ jobs:
         run: |
           brew install docker 
           docker ps -q | xargs -L1 docker stop
-          open --background -a Docker
+          open --background -a docker
           docker network prune --force --filter "label=5588e4"
           docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
           docker pull postgres:11
