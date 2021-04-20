@@ -16,30 +16,7 @@ jobs:
         matrix:
             os: [ubuntu-latest, macOS-latest]
             rust: [nightly, beta, stable]
-
-   
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: casbin_rs
-          POSTGRES_PASSWORD: casbin_rs
-          POSTGRES_DB: casbin
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_DATABASE: casbin
-          MYSQL_USER: casbin_rs
-          MYSQL_PASSWORD: casbin_rs
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+ 
     steps:
       - name: Install Docker on macOS
         if: matrix.os == 'macOS-latest'
@@ -48,6 +25,18 @@ jobs:
           docker ps --all --quiet --no-trunc --filter "label=5588e4"
           docker network prune --force --filter "label=5588e4"
           docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
+          docker pull postgres:11
+          docker pull mysql:8.0
+      
+       - name: Install Docker on macOS
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          docker ps --all --quiet --no-trunc --filter "label=5588e4"
+          docker network prune --force --filter "label=5588e4"
+          docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
+          docker pull postgres:11
+          docker pull mysql:8.0
+
 
       - name: Checkout Repository
         uses: actions/checkout@master
