@@ -25,7 +25,7 @@ jobs:
         docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
 
     services:
-            postgres:
+      postgres:
         image: postgres:11
         env:
           POSTGRES_USER: casbin_rs
