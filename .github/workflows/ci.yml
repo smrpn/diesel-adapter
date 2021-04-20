@@ -21,7 +21,7 @@ jobs:
       - name: Install Docker on macOS
         if: matrix.os == 'macOS-latest'
         run: |
-          brew install docker virtualbox
+          brew install docker 
           brew install docker-machine
           docker-machine restart
           docker network prune --force --filter "label=5588e4"
