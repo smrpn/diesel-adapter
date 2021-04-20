@@ -21,8 +21,11 @@ jobs:
       - name: Install Docker on macOS
         if: matrix.os == 'macOS-latest'
         run: |
-          brew install docker
-          systemctl start docker 
+          brew cask install docker virtualbox
+          brew install docker-machine
+          docker-machine restart
+          eval "$(docker-machine env default)"
+          docker-machine restart
           docker network prune --force --filter "label=5588e4"
           docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
           docker pull postgres:11
