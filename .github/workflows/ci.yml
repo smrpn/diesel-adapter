@@ -18,11 +18,11 @@ jobs:
             rust: [nightly, beta, stable]
 
     if: matrix.os == 'macOS-latest'
-          run: |
-              brew install docker
-              docker ps --all --quiet --no-trunc --filter "label=5588e4"
-              docker network prune --force --filter "label=5588e4"
-              docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
+    run: |
+        brew install docker
+        docker ps --all --quiet --no-trunc --filter "label=5588e4"
+        docker network prune --force --filter "label=5588e4"
+        docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
 
     services:
             postgres:
