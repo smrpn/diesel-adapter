@@ -21,7 +21,7 @@ jobs:
       - name: Install Docker on macOS
         if: matrix.os == 'macOS-latest'
         run: |
-          brew cask install docker virtualbox
+          brew install docker virtualbox
           brew install docker-machine
           docker-machine restart
           eval "$(docker-machine env default)"
