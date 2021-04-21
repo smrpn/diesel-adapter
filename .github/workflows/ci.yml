@@ -22,7 +22,7 @@ jobs:
         if: matrix.os == 'macOS-latest'
         run: |
           brew install docker docker-machine
-          brew services start docker-machine
+          service docker start
           docker network prune --force --filter "label=5588e4"
           docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
           docker pull postgres:11
