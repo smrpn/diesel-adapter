@@ -19,10 +19,14 @@ jobs:
  
     steps:
       - name: Install Docker on macOS
-        if: matrix.os == 'macOS-latest'
+        if: matrix.os == 'macOS-'
         run: |
-          brew install docker docker-machine
-          service docker start
+          mkdir -p ~/.docker/machine/cache
+          curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
+          brew install docker 
+          brew install docker-machine
+          docker-machine create --driver virtualbox default
+          docker-machine env default
           docker network prune --force --filter "label=5588e4"
           docker network create --label 5588e4 github_network_019b2ccf5882476dba293b3e20eab027
           docker pull postgres:11
